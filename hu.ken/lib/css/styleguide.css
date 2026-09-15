@@ -1,0 +1,91 @@
+/* CSS Reset */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+
+/* Variables */
+
+:root {
+    --color-neutral-dark: #333333;
+    --color-neutral-light: #f5f5f5;
+    --color-white: #ffffff;
+}
+
+
+/* Layout */
+
+.container {
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 20px;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.flex-stretch {
+    flex: 1 1 auto;
+}
+
+
+/* Navbar */
+
+.navbar {
+    padding: 20px 0;
+}
+
+.navbar .display-flex {
+    align-items: center;
+}
+
+.navbar h1 {
+    margin: 0;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* Card */
+
+.card {
+    padding: 20px;
+    border: 1px solid #dddddd;
+}
+
+.card-container {
+    display: flex;
+    gap: 20px;
+}
+
+.card-container .card {
+    flex: 1;
+}
+
+
+/* View Window */
+
+.viewwindow {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}

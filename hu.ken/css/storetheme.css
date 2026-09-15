@@ -1,0 +1,72 @@
+body {
+    color: #333333;
+    background-color: #ffffff;
+}
+
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dddddd;
+}
+
+.hero {
+    background-color: #eee7df;
+    text-align: center;
+}
+
+.hero-content {
+    width: 100%;
+}
+
+.hero h2 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-top: 10px;
+    background-color: #333333;
+    color: white;
+    text-decoration: none;
+}
+
+.products {
+    padding: 60px 0;
+}
+
+.products h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sale {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #333333;
+    color: white;
+}
+
+.about {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.newsletter {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #eee7df;
+}
+
+.newsletter input {
+    padding: 10px;
+}
+
+.newsletter button {
+    padding: 10px 20px;
+}
+
+footer {
+    padding: 30px;
+    text-align: center;
+}
