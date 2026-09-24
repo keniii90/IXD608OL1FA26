@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Brew Coffee Style Guide</title>
+    <link rel="stylesheet" href="../lib/css/styleguide.css">
+    <link rel="stylesheet" href="../css/storetheme.css">
+</head>
+<body class="style-guide-page">
+    <header class="style-guide-header">
+        <div class="container style-guide-header-layout">
+            <a class="style-guide-brand" href="../index.html">Morning Brew Style Guide</a>
+            <nav class="nav nav-flex" aria-label="Style guide navigation">
+                <a href="#table-of-contents">Table of Contents</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="style-guide-hero">
+            <div class="container">
+                <p class="eyebrow eyebrow-light">Website design system</p>
+                <h1>Morning Brew Coffee<br>Style Guide</h1>
+                <p>A reference page for the colors, typography, layouts and reusable components used throughout the e-commerce website.</p>
+                <a class="button button-light" href="../index.html">View Website</a>
+            </div>
+        </section>
+
+        <div class="container style-guide-main">
+            <section class="guide-section" id="table-of-contents">
+                <div class="guide-title"><span>00</span><div><p class="eyebrow">Navigation</p><h2>Table of Contents</h2></div></div>
+                <nav class="toc card" aria-label="Table of contents">
+                    <ol>
+                        <li><a href="#typography">Typography</a></li>
+                        <li><a href="#colors">Colors</a></li>
+                        <li><a href="#layout">Spacing and Grid</a></li>
+                        <li><a href="#buttons">Buttons and Forms</a></li>
+                        <li><a href="#cards">Cards</a></li>
+                        <li><a href="#navigations">Navigations</a></li>
+                        <li><a href="#tables">Tables</a></li>
+                        <li><a href="#figures">Figures</a></li>
+                    </ol>
+                </nav>
+            </section>
+
+            <section class="guide-section" id="typography">
+                <div class="guide-title"><span>01</span><div><p class="eyebrow">Foundation</p><h2>Typography</h2></div></div>
+                <div class="card type-samples">
+                    <div><small>Heading 1</small><h1>Better Coffee, Better Mornings.</h1></div>
+                    <div><small>Heading 2</small><h2>Featured Coffee</h2></div>
+                    <div><small>Heading 3</small><h3>Ethiopia Light Roast</h3></div>
+                    <div><small>Heading 4</small><h4>Roast Details</h4></div>
+                    <div><small>Heading 5</small><h5>Shipping Information</h5></div>
+                    <div><small>Heading 6</small><h6>Product Number</h6></div>
+                    <div><small>Paragraph</small><p>Our coffee is roasted in small batches and delivered fresh to your door.</p></div>
+                    <div><small>Inline link</small><p><a class="text-link" href="#">Learn more about this coffee</a></p></div>
+                </div>
+                <p class="guide-note"><strong>Heading font:</strong> Georgia, Times New Roman, serif. <strong>Body font:</strong> Arial, Helvetica, sans-serif.</p>
+            </section>
+
+            <section class="guide-section" id="colors">
+                <div class="guide-title"><span>02</span><div><p class="eyebrow">Foundation</p><h2>Color Palette</h2></div></div>
+                <div class="swatch-grid">
+                    <article class="swatch"><div style="background:#231A17"></div><h3>Espresso</h3><p>#231A17</p><small>Header and footer</small></article>
+                    <article class="swatch"><div style="background:#4A2F24"></div><h3>Coffee</h3><p>#4A2F24</p><small>Buttons and headings</small></article>
+                    <article class="swatch"><div style="background:#D9B892"></div><h3>Latte</h3><p>#D9B892</p><small>Accent color</small></article>
+                    <article class="swatch"><div style="background:#F3EADF"></div><h3>Cream</h3><p>#F3EADF</p><small>Section background</small></article>
+                    <article class="swatch"><div style="background:#50624B"></div><h3>Leaf</h3><p>#50624B</p><small>Success messages</small></article>
+                    <article class="swatch"><div style="background:#292421"></div><h3>Ink</h3><p>#292421</p><small>Body text</small></article>
+                </div>
+            </section>
+
+            <section class="guide-section" id="layout">
+                <div class="guide-title"><span>03</span><div><p class="eyebrow">Layout</p><h2>Spacing and Grid</h2></div></div>
+                <div class="grid-demo" aria-label="12 column grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="token-grid">
+                    <div><strong>12 columns</strong><span>Desktop grid</span></div><div><strong>24px</strong><span>Desktop gap</span></div><div><strong>1200px</strong><span>Maximum width</span></div><div><strong>80px</strong><span>Section spacing</span></div><div><strong>8px</strong><span>Base spacing unit</span></div><div><strong>8px</strong><span>Corner radius</span></div>
+                </div>
+                <p class="guide-note"><strong>Breakpoints:</strong> Mobile below 600px uses 4 columns. Tablet from 600px uses 8 columns. Desktop from 900px uses 12 columns.</p>
+            </section>
+
+            <section class="guide-section" id="buttons">
+                <div class="guide-title"><span>04</span><div><p class="eyebrow">Interface</p><h2>Buttons and Forms</h2></div></div>
+                <div class="card component-stack">
+                    <div class="component-row"><a class="button button-primary" href="#">Primary Button</a><a class="button button-secondary" href="#">Secondary Button</a><span class="dark-sample"><a class="button button-light" href="#">Light Button</a></span><a class="text-link" href="#">Text Link</a></div>
+                    <form class="form-demo"><label for="demo-email">Email address</label><input id="demo-email" type="email" placeholder="name@example.com"><small>Use visible labels and clear instructions for every field.</small></form>
+                </div>
+            </section>
+
+            <section class="guide-section" id="cards">
+                <div class="guide-title"><span>05</span><div><p class="eyebrow">Components</p><h2>Cards</h2></div></div>
+                <div class="component-grid">
+                    <article class="card"><h3>Basic Card</h3><p>A simple container for related content.</p></article>
+                    <article class="card card-soft"><h3>Soft Card</h3><p>A low-contrast card for supporting information.</p></article>
+                    <article class="card product-card"><div class="product-image roast-light"></div><p class="product-origin">Ethiopia</p><h3>Light Roast</h3><p>Bright, fruity and smooth.</p><div class="card-footer"><strong>$18</strong><a class="text-link" href="#">View coffee</a></div></article>
+                </div>
+            </section>
+
+            <section class="guide-section" id="navigations">
+                <div class="guide-title"><span>06</span><div><p class="eyebrow">Components</p><h2>Navigations</h2></div></div>
+                <div class="nav-examples">
+                    <article class="card"><h3>Basic Nav</h3><nav class="nav nav-basic"><a href="#">Home</a><a href="#">Shop</a><a href="#">About</a></nav></article>
+                    <article class="card"><h3>Flex Nav</h3><nav class="nav nav-flex"><a href="#">Home</a><a href="#">Shop</a><a href="#">About</a></nav></article>
+                    <article class="card"><h3>Stretch Nav</h3><nav class="nav nav-stretch"><a href="#">Home</a><a href="#">Shop</a><a href="#">About</a></nav></article>
+                    <article class="card"><h3>Pills Nav</h3><nav class="nav nav-pills"><a class="active" href="#">Home</a><a href="#">Shop</a><a href="#">About</a></nav></article>
+                    <article class="card"><h3>Crumbs Nav</h3><nav class="nav nav-crumbs" aria-label="Breadcrumb"><a href="#">Home</a><a href="#">Coffee</a><span>Ethiopia</span></nav></article>
+                    <article class="card"><h3>Material Nav</h3><nav class="nav nav-material"><a class="active" href="#">Home</a><a href="#">Shop</a><a href="#">About</a></nav></article>
+                </div>
+            </section>
+
+            <section class="guide-section" id="tables">
+                <div class="guide-title"><span>07</span><div><p class="eyebrow">Components</p><h2>Tables</h2></div></div>
+                <div class="table-wrap card">
+                    <table>
+                        <caption>Coffee roast comparison</caption>
+                        <thead><tr><th scope="col">Coffee</th><th scope="col">Roast</th><th scope="col">Flavor</th><th scope="col">Price</th></tr></thead>
+                        <tbody><tr><th scope="row">Ethiopia</th><td>Light</td><td>Floral and citrus</td><td>$18</td></tr><tr><th scope="row">Colombia</th><td>Medium</td><td>Chocolate and caramel</td><td>$16</td></tr><tr><th scope="row">Espresso Blend</th><td>Dark</td><td>Rich and bold</td><td>$17</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="guide-section" id="figures">
+                <div class="guide-title"><span>08</span><div><p class="eyebrow">Components</p><h2>Figures</h2></div></div>
+                <div class="figure-grid">
+                    <figure class="figure card"><div class="figure-image roast-light"><span>Light Roast</span></div><figcaption>Ethiopia Light Roast — bright, fruity and smooth.</figcaption></figure>
+                    <figure class="figure figure-overlay"><div class="figure-image roast-dark"><span>Espresso Blend</span></div><figcaption>Rich espresso for a bold morning.</figcaption></figure>
+                    <figure class="figure figure-product"><div class="figure-image roast-medium"><span>Medium Roast</span></div><figcaption><strong>Colombia Medium Roast</strong><br>Balanced with chocolate notes. $16</figcaption></figure>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-layout"><p>&copy; 2026 Morning Brew Coffee</p><a href="#table-of-contents">Back to Table of Contents</a></div></footer>
+</body>
+</html>
