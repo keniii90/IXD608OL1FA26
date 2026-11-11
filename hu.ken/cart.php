@@ -1,12 +1,48 @@
 
 <?php
-include __DIR__ . '/parts/products-data.php';
+require_once __DIR__ . '/parts/session.php';
+require_once __DIR__ . '/parts/products-data.php';
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$product = $products[$id] ?? null;
+// Handle removing products from cart
+if ($_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['remove_id'])) {
 
-$quantity = 1;
-$subtotal = $product ? $product['price'] * $quantity : 0;
+    $removeId = filter_input(
+        INPUT_POST,
+        'remove_id',
+        FILTER_VALIDATE_INT
+    );
+
+    if ($removeId) {
+        unset($_SESSION['cart'][$removeId]);
+    }
+
+    header('Location: cart.php');
+    exit;
+}
+
+// Calculate cart total
+$cartItems = [];
+$cartTotal = 0;
+
+foreach ($_SESSION['cart'] as $id => $quantity) {
+
+    if (!isset($products[$id])) {
+        continue;
+    }
+
+    $product = $products[$id];
+    $subtotal = $product['price'] * $quantity;
+
+    $cartItems[] = [
+        'id' => $id,
+        'product' => $product,
+        'quantity' => $quantity,
+        'subtotal' => $subtotal
+    ];
+
+    $cartTotal += $subtotal;
+}
 
 include __DIR__ . '/parts/header.php';
 ?>
@@ -21,36 +57,75 @@ include __DIR__ . '/parts/header.php';
                 <p>Review your coffee before checkout.</p>
             </div>
 
-            <?php if ($product): ?>
+            <?php if (!empty($cartItems)): ?>
 
                 <div class="product-grid">
-                    <article class="card product-card">
 
-                        <div class="product-image <?= htmlspecialchars($product['image_class']) ?>"
-                             aria-hidden="true">
-                        </div>
+                    <?php foreach ($cartItems as $item): ?>
+                        <article class="card product-card">
 
-                        <p class="product-origin">
-                            <?= htmlspecialchars($product['origin']) ?>
-                        </p>
+                            <div class="product-image <?= htmlspecialchars($item['product']['image_class']) ?>"
+                                 aria-hidden="true">
+                            </div>
 
-                        <h3><?= htmlspecialchars($product['name']) ?></h3>
+                            <p class="product-origin">
+                                <?= htmlspecialchars($item['product']['origin']) ?>
+                            </p>
 
-                        <p>Quantity: <?= $quantity ?></p>
+                            <h3>
+                                <?= htmlspecialchars($item['product']['name']) ?>
+                            </h3>
 
-                        <p>
-                            Price: $<?= number_format($product['price'], 2) ?>
-                        </p>
+                            <p>
+                                Quantity: <?= (int) $item['quantity'] ?>
+                            </p>
 
-                        <h3>
-                            Subtotal: $<?= number_format($subtotal, 2) ?>
-                        </h3>
+                            <p>
+                                Price:
+                                $<?= number_format($item['product']['price'], 2) ?>
+                            </p>
 
-                        <a href="checkout.php?id=<?= $id ?>"
+                            <h3>
+                                Subtotal:
+                                $<?= number_format($item['subtotal'], 2) ?>
+                            </h3>
+
+                            <form action="cart.php" method="post">
+                                <input
+                                    type="hidden"
+                                    name="remove_id"
+                                    value="<?= (int) $item['id'] ?>"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="button button-primary">
+                                    Remove
+                                </button>
+                            </form>
+
+                        </article>
+                    <?php endforeach; ?>
+
+                </div>
+
+                <div class="section-heading">
+                    <h2>
+                        Cart Total:
+                        $<?= number_format($cartTotal, 2) ?>
+                    </h2>
+
+                    <a href="products.php"
+                       class="text-link">
+                        Continue Shopping
+                    </a>
+
+                    <p>
+                        <a href="checkout.php"
                            class="button button-primary">
                             Proceed to Checkout
                         </a>
-                    </article>
+                    </p>
                 </div>
 
             <?php else: ?>
@@ -58,7 +133,9 @@ include __DIR__ . '/parts/header.php';
                 <div class="section-heading">
                     <h2>Your cart is empty</h2>
                     <p>Find your favorite coffee to get started.</p>
-                    <a href="products.php" class="button button-primary">
+
+                    <a href="products.php"
+                       class="button button-primary">
                         Continue Shopping
                     </a>
                 </div>

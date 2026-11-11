@@ -22,9 +22,39 @@ include __DIR__ . '/parts/header.php';
                 <div class="product-grid">
 
                     <div class="card product-card">
-                        <div class="product-image <?= htmlspecialchars($product['image_class']) ?>"
-                             aria-hidden="true">
-                        </div>
+                        
+<div
+    id="product-preview"
+    class="product-image <?= htmlspecialchars($product['image_class']) ?>"
+    role="img"
+    aria-label="Coffee product illustration">
+</div>
+
+<div class="roast-selector">
+    <p>Preview coffee styles:</p>
+
+    <button type="button"
+            class="roast-option"
+            data-roast="roast-light"
+            aria-pressed="false">
+        Light
+    </button>
+
+    <button type="button"
+            class="roast-option"
+            data-roast="roast-medium"
+            aria-pressed="false">
+        Medium
+    </button>
+
+    <button type="button"
+            class="roast-option"
+            data-roast="roast-dark"
+            aria-pressed="false">
+        Dark
+    </button>
+</div>
+
                     </div>
 
                     <div class="product-details">
@@ -42,10 +72,21 @@ include __DIR__ . '/parts/header.php';
                             $<?= number_format($product['price'], 2) ?>
                         </h3>
 
-                        <a href="cart.php?id=<?= $id ?>"
-                           class="button button-primary">
-                            Add to Cart
-                        </a>
+                        
+<form action="add-to-cart.php" method="post">
+    <input
+        type="hidden"
+        name="id"
+        value="<?= (int) $id ?>"
+    >
+
+    <button
+        type="submit"
+        class="button button-primary">
+        Add to Cart
+    </button>
+</form>
+
 
                         <p>
                             <a href="products.php" class="text-link">
@@ -71,5 +112,8 @@ include __DIR__ . '/parts/header.php';
         </div>
     </section>
 </main>
+
+
+<script src="js/product.js" defer></script>
 
 <?php include __DIR__ . '/parts/footer.php'; ?>

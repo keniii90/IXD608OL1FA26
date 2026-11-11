@@ -1,9 +1,28 @@
 
 <?php
-include __DIR__ . '/parts/products-data.php';
+require_once __DIR__ . '/parts/session.php';
+require_once __DIR__ . '/parts/products-data.php';
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$product = $products[$id] ?? null;
+// Get all products in the cart
+$cartItems = [];
+$cartTotal = 0;
+
+foreach ($_SESSION['cart'] as $id => $quantity) {
+    if (!isset($products[$id]) || $quantity <= 0) {
+        continue;
+    }
+
+    $product = $products[$id];
+    $subtotal = $product['price'] * $quantity;
+
+    $cartItems[] = [
+        'product' => $product,
+        'quantity' => $quantity,
+        'subtotal' => $subtotal
+    ];
+
+    $cartTotal += $subtotal;
+}
 
 include __DIR__ . '/parts/header.php';
 ?>
@@ -18,27 +37,28 @@ include __DIR__ . '/parts/header.php';
                 <p>Complete your information below.</p>
             </div>
 
-            <?php if ($product): ?>
+            <?php if (!empty($cartItems)): ?>
 
                 <div class="card product-card">
                     <h2>Order Summary</h2>
 
-                    <p>
-                        <?= htmlspecialchars($product['name']) ?>
-                    </p>
+                    <?php foreach ($cartItems as $item): ?>
+                        <p>
+                            <?= htmlspecialchars($item['product']['name']) ?>
+                            × <?= (int) $item['quantity'] ?>
+                            —
+                            $<?= number_format($item['subtotal'], 2) ?>
+                        </p>
+                    <?php endforeach; ?>
 
                     <h3>
-                        Total: $<?= number_format($product['price'], 2) ?>
+                        Total: $<?= number_format($cartTotal, 2) ?>
                     </h3>
                 </div>
 
                 <form class="newsletter-form"
                       action="confirmation.php"
-                      method="get">
-
-                    <input type="hidden"
-                           name="id"
-                           value="<?= $id ?>">
+                      method="post">
 
                     <label for="customer-name">
                         Full Name
@@ -69,11 +89,15 @@ include __DIR__ . '/parts/header.php';
 
             <?php else: ?>
 
-                <h2>No product selected</h2>
-                <a href="products.php"
-                   class="button button-primary">
-                    Back to Shop
-                </a>
+                <div class="section-heading">
+                    <h2>Your cart is empty</h2>
+                    <p>Add some coffee before checking out.</p>
+
+                    <a href="products.php"
+                       class="button button-primary">
+                        Back to Shop
+                    </a>
+                </div>
 
             <?php endif; ?>
 

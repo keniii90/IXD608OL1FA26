@@ -135,3 +135,33 @@ tbody tr:hover { background:#ead9c6; }
     .toc ol { grid-template-columns:1fr; }
     .style-guide-header-layout { align-items:flex-start; flex-direction:column; padding-block:var(--space-2); }
 }
+
+
+/* Product preview interaction */
+
+.roast-selector {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.roast-selector p {
+    margin-bottom: 0.75rem;
+    color: var(--color-muted);
+}
+
+.roast-option {
+    padding: 0.6rem 1rem;
+    margin: 0.25rem;
+    border: 1px solid var(--color-coffee);
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    color: var(--color-coffee);
+    cursor: pointer;
+}
+
+.roast-option:hover,
+.roast-option[aria-pressed="true"] {
+    background: var(--color-coffee);
+    color: var(--color-white);
+}
+
