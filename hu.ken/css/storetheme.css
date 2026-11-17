@@ -165,3 +165,27 @@ tbody tr:hover { background:#ead9c6; }
     color: var(--color-white);
 }
 
+
+/* Real Coffee Product Images */
+
+.product-image {
+    background: transparent !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image::before,
+.product-image::after {
+    content: none !important;
+    display: none !important;
+}
+
+.product-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+

@@ -19,7 +19,13 @@ include __DIR__ . '/parts/header.php';
                 <?php foreach ($products as $id => $product): ?>
 
                 <article class="card product-card">
-                    <div class="product-image <?= htmlspecialchars($product['image_class']) ?>" aria-hidden="true"></div>
+                    <div class="product-image">
+    <img
+        src="<?= htmlspecialchars($product['image']) ?>"
+        alt="<?= htmlspecialchars($product['name']) ?>"
+        loading="lazy"
+    >
+</div>
 
                     <p class="product-origin">
                         <?= htmlspecialchars($product['origin']) ?>
