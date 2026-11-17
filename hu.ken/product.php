@@ -1,6 +1,6 @@
 
 <?php
-include __DIR__ . '/parts/products-data.php';
+require_once __DIR__ . '/parts/products-data.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $product = $products[$id] ?? null;
@@ -16,53 +16,36 @@ include __DIR__ . '/parts/header.php';
 
                 <div class="section-heading">
                     <p class="eyebrow">Freshly roasted coffee</p>
-                    <h1><?= htmlspecialchars($product['name']) ?></h1>
+                    <h1>
+                        <?= htmlspecialchars($product['name']) ?>
+                    </h1>
                 </div>
 
                 <div class="product-grid">
 
+                    <!-- Product Image -->
                     <div class="card product-card">
-                        
-<div
-    id="product-preview"
-    class="product-image <?= htmlspecialchars($product['image_class']) ?>"
-    role="img"
-    aria-label="Coffee product illustration">
-</div>
 
-<div class="roast-selector">
-    <p>Preview coffee styles:</p>
-
-    <button type="button"
-            class="roast-option"
-            data-roast="roast-light"
-            aria-pressed="false">
-        Light
-    </button>
-
-    <button type="button"
-            class="roast-option"
-            data-roast="roast-medium"
-            aria-pressed="false">
-        Medium
-    </button>
-
-    <button type="button"
-            class="roast-option"
-            data-roast="roast-dark"
-            aria-pressed="false">
-        Dark
-    </button>
-</div>
+                        <img
+                            id="product-preview"
+                            class="product-image"
+                            src="images/products/<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') ?>"
+                            alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>"
+                            style="width:100%; height:auto; object-fit:contain;"
+                        >
 
                     </div>
 
+                    <!-- Product Details -->
                     <div class="product-details">
+
                         <p class="eyebrow">
-                            <?= htmlspecialchars($product['origin']) ?>
+                            <?= htmlspecialchars($product['origin'] ?? '') ?>
                         </p>
 
-                        <h2><?= htmlspecialchars($product['name']) ?></h2>
+                        <h2>
+                            <?= htmlspecialchars($product['name']) ?>
+                        </h2>
 
                         <p>
                             <?= htmlspecialchars($product['description']) ?>
@@ -72,27 +55,87 @@ include __DIR__ . '/parts/header.php';
                             $<?= number_format($product['price'], 2) ?>
                         </h3>
 
-                        
-<form action="add-to-cart.php" method="post">
-    <input
-        type="hidden"
-        name="id"
-        value="<?= (int) $id ?>"
-    >
+                        <!-- Add to Cart Form -->
+                        <form action="add-to-cart.php" method="post">
 
-    <button
-        type="submit"
-        class="button button-primary">
-        Add to Cart
-    </button>
-</form>
+                            <input
+                                type="hidden"
+                                name="id"
+                                value="<?= (int) $id ?>"
+                            >
 
+                            <!-- Coffee Size -->
+                            <div class="product-option">
+                                <label for="coffee-size">
+                                    Coffee Size
+                                </label>
+
+                                <select
+                                    id="coffee-size"
+                                    name="size"
+                                    required
+                                >
+                                    <option value="12 oz">12 oz</option>
+                                    <option value="16 oz">16 oz</option>
+                                    <option value="32 oz">32 oz</option>
+                                </select>
+                            </div>
+
+                            <!-- Grind Type -->
+                            <div class="product-option">
+                                <label for="grind-type">
+                                    Grind Type
+                                </label>
+
+                                <select
+                                    id="grind-type"
+                                    name="grind"
+                                    required
+                                >
+                                    <option value="Whole Bean">
+                                        Whole Bean
+                                    </option>
+                                    <option value="Ground">
+                                        Ground
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="product-option">
+                                <label for="quantity">
+                                    Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="quantity"
+                                    name="quantity"
+                                    min="1"
+                                    max="10"
+                                    value="1"
+                                    required
+                                >
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="button button-primary"
+                            >
+                                Add to Cart
+                            </button>
+
+                        </form>
 
                         <p>
-                            <a href="products.php" class="text-link">
+                            <a
+                                href="products.php"
+                                class="text-link"
+                            >
                                 Back to Shop
                             </a>
                         </p>
+
                     </div>
 
                 </div>
@@ -101,8 +144,15 @@ include __DIR__ . '/parts/header.php';
 
                 <div class="section-heading">
                     <h1>Product Not Found</h1>
-                    <p>Sorry, this coffee is not available.</p>
-                    <a href="products.php" class="button button-primary">
+
+                    <p>
+                        Sorry, this coffee is not available.
+                    </p>
+
+                    <a
+                        href="products.php"
+                        class="button button-primary"
+                    >
                         Back to Shop
                     </a>
                 </div>
@@ -112,8 +162,5 @@ include __DIR__ . '/parts/header.php';
         </div>
     </section>
 </main>
-
-
-<script src="js/product.js" defer></script>
 
 <?php include __DIR__ . '/parts/footer.php'; ?>

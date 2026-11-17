@@ -3,46 +3,82 @@
 require_once __DIR__ . '/parts/session.php';
 require_once __DIR__ . '/parts/products-data.php';
 
-// Handle removing products from cart
-if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_POST['remove_id'])) {
+// Handle cart actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $removeId = filter_input(
-        INPUT_POST,
-        'remove_id',
-        FILTER_VALIDATE_INT
-    );
+    $cartKey = $_POST['cart_key'] ?? '';
 
-    if ($removeId) {
-        unset($_SESSION['cart'][$removeId]);
+    if (isset($_SESSION['cart'][$cartKey])) {
+
+        // Remove item
+        if (isset($_POST['remove'])) {
+            unset($_SESSION['cart'][$cartKey]);
+        }
+
+        // Update quantity
+        if (isset($_POST['update'])) {
+
+            $quantity = filter_input(
+                INPUT_POST,
+                'quantity',
+                FILTER_VALIDATE_INT
+            );
+
+            if (
+                $quantity !== false &&
+                $quantity !== null &&
+                $quantity >= 1 &&
+                $quantity <= 10
+            ) {
+                $_SESSION['cart'][$cartKey]['quantity'] = $quantity;
+            }
+        }
     }
 
     header('Location: cart.php');
     exit;
 }
 
-// Calculate cart total
+// Calculate cart items
 $cartItems = [];
-$cartTotal = 0;
+$cartSubtotal = 0;
 
-foreach ($_SESSION['cart'] as $id => $quantity) {
+foreach ($_SESSION['cart'] as $cartKey => $item) {
 
-    if (!isset($products[$id])) {
+    // Skip old cart data
+    if (!is_array($item)) {
+        continue;
+    }
+
+    $id = (int) ($item['id'] ?? 0);
+    $quantity = (int) ($item['quantity'] ?? 0);
+
+    if (!isset($products[$id]) || $quantity <= 0) {
         continue;
     }
 
     $product = $products[$id];
+
     $subtotal = $product['price'] * $quantity;
 
     $cartItems[] = [
-        'id' => $id,
+        'cart_key' => $cartKey,
         'product' => $product,
+        'size' => $item['size'] ?? '12 oz',
+        'grind' => $item['grind'] ?? 'Whole Bean',
         'quantity' => $quantity,
         'subtotal' => $subtotal
     ];
 
-    $cartTotal += $subtotal;
+    $cartSubtotal += $subtotal;
 }
+
+// Demo tax calculation
+$taxRate = 0.0825;
+
+$cartTax = round($cartSubtotal * $taxRate, 2);
+
+$cartTotal = $cartSubtotal + $cartTax;
 
 include __DIR__ . '/parts/header.php';
 ?>
@@ -53,7 +89,9 @@ include __DIR__ . '/parts/header.php';
 
             <div class="section-heading">
                 <p class="eyebrow">Almost there</p>
+
                 <h1>Your Shopping Cart</h1>
+
                 <p>Review your coffee before checkout.</p>
             </div>
 
@@ -62,82 +100,155 @@ include __DIR__ . '/parts/header.php';
                 <div class="product-grid">
 
                     <?php foreach ($cartItems as $item): ?>
+
                         <article class="card product-card">
 
-                            <div class="product-image <?= htmlspecialchars($item['product']['image_class']) ?>"
-                                 aria-hidden="true">
-                            </div>
+                            <!-- Product Image -->
+                            <img
+                                src="/images/products/<?= htmlspecialchars(basename($item['product']['image'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($item['product']['name'], ENT_QUOTES, 'UTF-8') ?>"
+                                style="display:block; width:100%; height:220px; object-fit:contain; border-radius:12px;"
+                            >
 
+                            <!-- Product Origin -->
                             <p class="product-origin">
-                                <?= htmlspecialchars($item['product']['origin']) ?>
+                                <?= htmlspecialchars($item['product']['origin'] ?? '') ?>
                             </p>
 
+                            <!-- Product Name -->
                             <h3>
                                 <?= htmlspecialchars($item['product']['name']) ?>
                             </h3>
 
+                            <!-- Coffee Size -->
                             <p>
-                                Quantity: <?= (int) $item['quantity'] ?>
+                                <strong>Size:</strong>
+                                <?= htmlspecialchars($item['size']) ?>
                             </p>
 
+                            <!-- Grind Type -->
                             <p>
-                                Price:
+                                <strong>Grind:</strong>
+                                <?= htmlspecialchars($item['grind']) ?>
+                            </p>
+
+                            <!-- Unit Price -->
+                            <p>
+                                <strong>Unit Price:</strong>
                                 $<?= number_format($item['product']['price'], 2) ?>
                             </p>
 
+                            <!-- Update Cart Form -->
+                            <form action="cart.php" method="post">
+
+                                <input
+                                    type="hidden"
+                                    name="cart_key"
+                                    value="<?= htmlspecialchars((string) $item['cart_key'], ENT_QUOTES, 'UTF-8') ?>"
+                                >
+
+                                <label>
+                                    Quantity:
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    min="1"
+                                    max="10"
+                                    value="<?= (int) $item['quantity'] ?>"
+                                    required
+                                >
+
+                                <button
+                                    type="submit"
+                                    name="update"
+                                    value="1"
+                                    class="button button-primary"
+                                >
+                                    Update Quantity
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    name="remove"
+                                    value="1"
+                                    class="button button-primary"
+                                    formnovalidate
+                                >
+                                    Remove
+                                </button>
+
+                            </form>
+
+                            <!-- Item Subtotal -->
                             <h3>
                                 Subtotal:
                                 $<?= number_format($item['subtotal'], 2) ?>
                             </h3>
 
-                            <form action="cart.php" method="post">
-                                <input
-                                    type="hidden"
-                                    name="remove_id"
-                                    value="<?= (int) $item['id'] ?>"
-                                >
-
-                                <button
-                                    type="submit"
-                                    class="button button-primary">
-                                    Remove
-                                </button>
-                            </form>
-
                         </article>
+
                     <?php endforeach; ?>
 
                 </div>
 
+                <!-- Cart Totals -->
                 <div class="section-heading">
+
+                    <h2>Cart Totals</h2>
+
+                    <p>
+                        Subtotal:
+                        $<?= number_format($cartSubtotal, 2) ?>
+                    </p>
+
+                    <p>
+                        Tax (8.25%):
+                        $<?= number_format($cartTax, 2) ?>
+                    </p>
+
                     <h2>
-                        Cart Total:
+                        Total:
                         $<?= number_format($cartTotal, 2) ?>
                     </h2>
 
-                    <a href="products.php"
-                       class="text-link">
+                    <a
+                        href="products.php"
+                        class="text-link"
+                    >
                         Continue Shopping
                     </a>
 
                     <p>
-                        <a href="checkout.php"
-                           class="button button-primary">
+                        <a
+                            href="checkout.php"
+                            class="button button-primary"
+                        >
                             Proceed to Checkout
                         </a>
                     </p>
+
                 </div>
 
             <?php else: ?>
 
+                <!-- Empty Cart -->
                 <div class="section-heading">
-                    <h2>Your cart is empty</h2>
-                    <p>Find your favorite coffee to get started.</p>
 
-                    <a href="products.php"
-                       class="button button-primary">
+                    <h2>Your cart is empty</h2>
+
+                    <p>
+                        Find your favorite coffee to get started.
+                    </p>
+
+                    <a
+                        href="products.php"
+                        class="button button-primary"
+                    >
                         Continue Shopping
                     </a>
+
                 </div>
 
             <?php endif; ?>
