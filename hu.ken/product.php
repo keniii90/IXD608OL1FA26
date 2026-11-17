@@ -26,13 +26,14 @@ include __DIR__ . '/parts/header.php';
                     <!-- Product Image -->
                     <div class="card product-card">
 
-                        <img
-                            id="product-preview"
-                            class="product-image"
-                            src="images/products/<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') ?>"
-                            alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>"
-                            style="width:100%; height:auto; object-fit:contain;"
-                        >
+                        
+<img
+    id="product-preview"
+    src="/images/products/<?= htmlspecialchars(basename($product['image']), ENT_QUOTES, 'UTF-8') ?>"
+    alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>"
+    style="display:block; width:100%; height:350px; object-fit:contain; border-radius:12px;"
+>
+
 
                     </div>
 
