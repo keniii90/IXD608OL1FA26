@@ -14,7 +14,68 @@ include __DIR__ . '/parts/header.php';
                 <p>Explore our freshly roasted coffee collection.</p>
             </div>
 
-            <div class="product-grid">
+            <div class="coffee-controls">
+
+<!-- Coffee Search -->
+<div class="coffee-search" style="margin-bottom:30px;">
+
+    <label for="coffee-search">
+        Search Coffee
+    </label>
+
+    <input
+        type="search"
+        id="coffee-search"
+        placeholder="Search coffee by name..."
+        style="width:100%; padding:14px; margin-top:10px; border:1px solid #ddd; border-radius:8px;"
+    >
+
+</div>
+
+<!-- Coffee Filter -->
+<div class="coffee-filter" style="margin-bottom:30px;">
+
+    <label for="coffee-filter">
+        Filter by Coffee Type
+    </label>
+
+    <select
+        id="coffee-filter"
+        style="width:100%; padding:14px; margin-top:10px; border:1px solid #ddd; border-radius:8px;"
+    >
+        <option value="all">All Coffee</option>
+        <option value="light">Light Roast</option>
+        <option value="medium">Medium Roast</option>
+        <option value="dark">Dark Roast</option>
+        <option value="espresso">Espresso</option>
+        <option value="decaf">Decaf</option>
+    </select>
+
+</div>
+
+            
+<!-- Coffee Sort -->
+<div class="coffee-sort" style="margin-bottom:30px;">
+
+    <label for="coffee-sort">
+        Sort Coffee
+    </label>
+
+    <select
+        id="coffee-sort"
+        style="width:100%; padding:14px; margin-top:10px; border:1px solid #ddd; border-radius:8px;"
+    >
+        <option value="default">Default</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="name">Name: A to Z</option>
+    </select>
+
+</div>
+
+</div>
+
+            <div class="product-grid" id="coffee-product-grid">
 
                 <?php foreach ($products as $id => $product): ?>
 
@@ -50,5 +111,7 @@ include __DIR__ . '/parts/header.php';
         </div>
     </section>
 </main>
+
+<script src="js/products-api.js" defer></script>
 
 <?php include __DIR__ . '/parts/footer.php'; ?>
